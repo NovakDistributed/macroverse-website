@@ -36,6 +36,23 @@ h1.display-3 {
     background: rgba(0,0,0,1) !important;
 }
 
+.navbar-logo {
+    width: 20px;
+    height: 20px;
+    margin-right: 0.5em;
+    background-image: url('../img/logo-light.svg');
+    background-size: cover;
+    display: inline-block;
+}
+
+.navbar-name {
+    vertical-align: top;
+}
+
+.transbutton:hover .navbar-logo, .transbutton:active .navbar-logo, .transbutton:focus .navbar-logo {
+    background-image: url('../img/logo-white.svg');
+}
+
 /* Space out forms */
 
 .form-padded {
