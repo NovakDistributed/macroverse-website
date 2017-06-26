@@ -79,6 +79,9 @@
                     <li class="transbutton">
                         <a href="#crowdsale">Crowdsale</a>
                     </li>
+                    <li class="transbutton during-crowdsale">
+                        <a href="#buy"><span class="buynow">Buy Now!</span></a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -128,6 +131,15 @@
                             <input type="submit" value="Subscribe" name="submit" class="btn btn-primary">
                         </div>
                     </form>
+                </div>
+                <div class="row during-crowdsale bigbuy">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn btn-success btn-lg bigbuy" href="#buy" >
+                            <span class="fa fa-shopping-cart" aria-hidden="true"></span> Buy MRV Now!
+                        </a>
+                    </div>
                 </div>
                 <div class="row top-countdown before-crowdsale during-crowdsale">
                     <div class="col-md-3">
@@ -225,6 +237,9 @@
                 <p>
                     The first phase of Macroverse Generator development, code-named <b>Cannon</b>, has already been completed. The current Macroverse Generator supports the generation of an entire galaxy of distinct, well-characterized stars, suitable for use in large-scale exploration and strategy games. The current Macroverse Registry implementation allows these stars to be claimed by and transferred among players. On the backend, the Macroverse Generator uses novel smart contract technologies, including an advanced random number generator based on reverse Merkle trees and specialized for procedural content generation, and a novel fixed-point math library.
                 </p>
+                <p>
+                    The Macroverse Star Generator is deployed on the Ethereum blockchain at address <code>0x56D96b6a5F33E2efE5BE66065D5b9C230B1f4e0e</code>. The Macroverse Star Registry is deployed at address <code>0x6C00556F471cbe518007D62bc4ACEd6d8e537c9D</code>.
+                </p>
                 <a class="btn btn-primary btn-lg" href="https://github.com/NovakDistributed/macroverse" target="_blank">
                     <span class="fa fa-github-alt" aria-hidden="true"></span>
                     Explore the Code
@@ -246,6 +261,9 @@
                 <p>
                     The MRV token will be initially distributed to players in a crowdsale. After the crowdsale, the supply of MRV will be fixed, with the value determined by the market. In order to maintain the value of "1 MRV" in a range convenient for gaming use, the MRV token contract will use adjustable decimal place technology to allow for simple 10-to-1 splits and merges.
                 </p>
+                <p>
+                    The MRV token is deployed on the Ethereum blockchain at address <code>0xAB6CF87a50F17d7F5E1FEaf81B6fE9FfBe8EBF84</code>. This address should be sifficient 
+                </p>
             </div>
         </section>
 
@@ -255,46 +273,255 @@
                     <h1 class="display-3">The Macroverse Crowdsale</h1>
                 </div>
                 <p>
-                    The MRV token crowdsale is currently scheduled to commence on July 1st, at 10 AM PST. The crowdsale is currently scheduled to last for approximately 90 days. The crowdsale contract address will be announced shortly before the crowdsale begins. Participants are encouraged to <a href="https://github.com/NovakDistributed/macroverse/blob/master/contracts/MRVToken.sol">review the crowdsale smart contract code</a>, which controls in all respects over any other terms.
+                    The MRV token crowdsale is currently scheduled to commence on July 1st, at 10 AM PST. The crowdsale is currently scheduled to last for approximately 90 days. The crowdsale contract address is <code>0xAB6CF87a50F17d7F5E1FEaf81B6fE9FfBe8EBF84</code>. Token and crowdsale functionality are unified in a single contract. Participants are encouraged to <a href="https://github.com/NovakDistributed/macroverse/blob/master/contracts/MRVToken.sol" target="_blank">review the crowdsale smart contract code</a>, which controls in all respects over any other terms.
                 </p>
                 
-                <h3 class="before-crowdsale">MRV Crowdsale Begins In:</h3>
-                <h3 class="during-crowdsale">MRV Crowdsale Ends In:</h3>
-                <h3 class="after-crowdsale">MRV Crowdsale Complete</h3>
-                <div class="countdown-inline crowdsale-countdown before-crowdsale during-crowdsale">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="before-crowdsale">MRV Crowdsale Countdown</span>
+                        <span class="during-crowdsale">MRV Crowdsale Open!</span>
+                        <span class="after-crowdsale">MRV Crowdsale Complete</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="before-crowdsale">
+                                    <p>
+                                        The MRV crowdsale has not yet started. Sign up below to be notified when it begins.
+                                    </p>
+                                    <form class="form-inline form-padded before-crowdsale during-crowdsale" action="https://twitter.us16.list-manage.com/subscribe/post" method="POST" target="_blank">
+                                        <h4>Get Crowdsale Updates by Email</h4>
+                                        <input type="hidden" name="u" value="1e07a358abd846919124be0b8">
+                                        <input type="hidden" name="id" value="fa90f1ebbe">
+                                        <div style="display: none" aria-label="Please leave the following three fields empty">
+                                            <label for="b_name">Name: </label>
+                                            <input type="text" name="b_name" tabindex="-1" value="" placeholder="Freddie">
+
+                                            <label for="b_email">Email: </label>
+                                            <input type="email" name="b_email" tabindex="-1" value="" placeholder="youremail@gmail.com">
+
+                                            <label for="b_comment">Comment: </label>
+                                            <textarea name="b_comment" tabindex="-1" placeholder="Please comment"></textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="email" value="" name="MERGE0" class="form-control" placeholder="Enter Email">
+                                            <input type="submit" value="Subscribe" name="submit" class="btn btn-primary">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="during-crowdsale">
+                                    <p>
+                                        <b>The MRV crowdsale is currently open.</b> You can now buy MRV, the token required to access the functionality of the Macroverse system.
+                                    <p>
+                                    <a class="btn btn-success btn-lg" href="#buy">
+                                        <span class="fa fa-shopping-cart" aria-hidden="true"></span>
+                                        Buy MRV Now!
+                                    </a>
+                                </div>
+                                <div class="after-crowdsale">
+                                    <p>
+                                        <b>The MRV crowdsale has finished!</b> MRV, the token required to access the functionality of the Macroverse system, is no longer available from the crowdsale contract. However, it may be available on the secondary market from ERC20 token exchanges.
+                                    <p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="before-crowdsale">Crowdsale Begins In:</span>
+                                <span class="during-crowdsale">Crowdsale Ends In:</span>
+                                
+                                <div class="crowdsale-countdown before-crowdsale during-crowdsale">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <form class="form-inline form-padded before-crowdsale during-crowdsale" action="https://twitter.us16.list-manage.com/subscribe/post" method="POST" target="_blank">
-                    <h4>Get Crowdsale Updates by Email</h4>
-                    <input type="hidden" name="u" value="1e07a358abd846919124be0b8">
-                    <input type="hidden" name="id" value="fa90f1ebbe">
-                    <div style="display: none" aria-label="Please leave the following three fields empty">
-                        <label for="b_name">Name: </label>
-                        <input type="text" name="b_name" tabindex="-1" value="" placeholder="Freddie">
-
-                        <label for="b_email">Email: </label>
-                        <input type="email" name="b_email" tabindex="-1" value="" placeholder="youremail@gmail.com">
-
-                        <label for="b_comment">Comment: </label>
-                        <textarea name="b_comment" tabindex="-1" placeholder="Please comment"></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <input type="email" value="" name="MERGE0" class="form-control" placeholder="Enter Email">
-                        <input type="submit" value="Subscribe" name="submit" class="btn btn-primary">
-                    </div>
-                </form>
-                
                 
                 <p>
                    During the crowdsale, 100,000,000 MRV tokens will be available for purchase, at a rate of 5,000 MRV per ETH. Additionally, 5,000 MRV tokens are reserved by Novak Distributed, the Macroverse developer, for internal use. The number of tokens sold will determine the ultimate total supply of the MRV token. <strong>No additional MRV tokens will ever be created,</strong> and <strong>all sales will be final</strong>.
                 </p>
                 <p>
+                    At the balance requirements set at Macroverse launch, 5000 MRV are sufficient to meet the minimum balance requirement for 10 players and to additionally claim ownership of 4 star systems. The minimum recommended purchase is 100 MRV, at 0.02 ETH, which is enough to meet the minimum balance requirement for a single account.
+                </p>
+                <p>
                     Please note that MRV tokens do not grant ownership of or voting rights in the Macroverse project. They do not entitle holders to future returns from the project. They are not a security. There are a number of risks involved in the Macroverse project, including without limitation security risks to the Macroverse smart contracts, the risk that Macroverse development will not be completed, and the risk that the final Macroverse system will not operate as described here. <strong>Crowdsale participants assume all of these risks!</strong>
+                </p>
+                
+            </div>
+        </section>
+        
+        <section class="row">
+            <div class="col-lg-9" id="buy">
+                <div class="page-header">
+                    <h1 class="display-3 during-crowdsale">Buy MRV Now!</h1>
+                    <h1 class="display-3 before-crowdsale after-crowdsale">How to Buy MRV During the Crowdsale</h1>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <p>
+                            It is <strong>strongly advised</strong> that all purchasers read and understand the smart contract that governs the crowdsale. The smart contract code takes priority over all terms given here, or in the white paper, or even in the smart contract comments, and controls the crowdsale in all respects.
+                        </p>
+                        <a class="btn btn-danger btn-lg" href="https://github.com/NovakDistributed/macroverse/blob/master/contracts/MRVToken.sol" target="_blank">
+                            <span class="fa fa-file-text" aria-hidden="true"></span>
+                            Read the Contract
+                        </a>
+                    </div>
+                </div>
+                <p>
+                    During the crowdsale, you will be able to buy the Macroverse token, MRV, by sending any amount of Ether from an ERC20-supporting wallet you control to the crowdsale contract at this address:
+                    <pre><code>0xAB6CF87a50F17d7F5E1FEaf81B6fE9FfBe8EBF84</code></pre> For some purchasers, that information will be sufficient. If not, detailed guides for how to accomplish this in popular wallets are presented below.
+                </p>
+                <a class="btn btn-primary btn-lg" href="#buy-mew">
+                    <span class="fa fa-shopping-cart" aria-hidden="true"></span>
+                    Buy MRV with MyEtherWallet
+                </a>
+                <a class="btn btn-primary btn-lg" href="#buy-mist">
+                    <span class="fa fa-shopping-cart" aria-hidden="true"></span>
+                    Buy MRV with Mist
+                </a>
+                <h2>Acquiring Ether</h2>
+                <p>
+                    The Macroverse crowdsale operates exclusively in Ether (ETH), the currency of the Ethereum blockchain platform. In order to purchase MRV tokens, and use the Macroverse system, you will need to obtain some Ether to spend. The easiest way for many people to buy Ether is by using a credit card or linkled bank account at Coinbase, a digital currency retailer. For those who already own other cryptocurrencies, the simplest way to obtain Ether is by using Shapeshift.
+                </p>
+                <p><strong>DO NOT send Ether directly from an exchange to the crowdsale contract!</strong> Doing so will give any MRV tokens purchased to the exchange instead of you, and you will not get them back. Send Ether <strong>ONLY</strong> from a real, ERC20-compatible wallet for which you control the private keys. You assume all risks of user error when participating in the MRV crowdsale.</p>
+                <a class="btn btn-primary btn-lg" href="https://www.coinbase.com/buy-ethereum" target="_blank">
+                    <span class="fa fa-credit-card" aria-hidden="true"></span>
+                    Buy Ether at Coinbase
+                </a>
+                <a class="btn btn-primary btn-lg" href="https://shapeshift.io" target="_blank">
+                    <span class="fa fa-btc" aria-hidden="true"></span>
+                    Buy Ether at Shapeshift
+                </a>
+            </div>
+        </section>
+        
+        <section class="row">
+            <div class="col-lg-9" id="buy-mew">
+                <div class="page-header">
+                    <h1 class="display-3">MyEtherWallet Guide</h1>
+                </div>
+                <p>
+                    <a href="https://www.myetherwallet.com/" target="_blank">MyEtherWallet</a> is one of the most popular web-based Ethereum wallets. If you have your Ether stored in MyEtherWallet, follow these instructions to participate in the Macroverse crowdsale and purchase MRV.
+                </p>
+            </div>
+            <div class="col-lg-12">
+                <div class="row row-tutorial">
+                    <div class="col-md-6 col-tutorial">
+                        <img class="img-responsive" src="img/tutorial/MEWBuy1.png">
+                    </div>
+                    <div class="col-md-6 col-tutorial">
+                        <p>
+                            <ol>
+                                <li>Go to <a href="https://www.myetherwallet.com/" target="_blank">MyEtherWallet</a>. After verifying that you have reached the correct site in the address bar, click on <b>Send Ether & Tokens</b> in the top bar.</li>
+                                <li>Unlock your account by uploading your key file and entering your password, or using one of the other methods supported by MyEtherWallet.</li>
+                                <li>Paste the address of the crowdsale contract, <code>0xAB6CF87a50F17d7F5E1FEaf81B6fE9FfBe8EBF84</code>, as the <b>To Address</b>. Ensure that the icon matches the one pictured here.</li>
+                                <li>Enter the amount of Ether you wish to spend. Fractional amounts of Ether are allowed.</li>
+                                <li>The appropriate gas limit should be automatically determined. <strong>If a "-1" appears here, STOP!</strong> The crowdsale may be over or not yet started, or you may have made a mistake.</li>
+                                <li>Click the <b>Generate Transaction</b> button to create a transaction.</li>
+                                <li>Click the <b>Send Transaction</b> button to send your payment, and await the receipt of your Macroverse tokens.</li>
+                            </ol>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <p>
+                    Once your MRV tokens have been purchased, you can add the MRV token as a token in MyEtherWallet, so that you can see your balance and send the token to to others. To do this, follow the guide below.
+                </p>
+            </div>
+            <div class="col-lg-12">
+                <div class="row row-tutorial">
+                    <div class="col-md-6 col-tutorial">
+                        <img class="img-responsive" src="img/tutorial/MEWWatch1.png">
+                    </div>
+                    <div class="col-md-6 col-tutorial">
+                        <p>
+                            <ol>
+                                <li>In the right side bar, find the <b>Token Balances</b> section. Click on <b>Add Custom Token</b>.</li>
+                                <li>Paste the contract address, <code>0xAB6CF87a50F17d7F5E1FEaf81B6fE9FfBe8EBF84</code>, in the <b>Address</b> field.</li>
+                                <li>Enter "MRV" in the <b>Token Symbol</b> field.</li>
+                                <li>Enter "18" in the <b>Decimals</b> field. Note that future updates to the decimal location may not be reflected by your wallet.</li>
+                                <li>Click on <b>Save</b>.</li>
+                            </ol>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <p>
+                    Now your MyEtherWallet should know about MRV, the Macroverse token, and will allow you to view your balance and send it around just like Ether.
                 </p>
             </div>
         </section>
-
+        
+        <section class="row">
+            <div class="col-lg-9" id="buy-mist">
+                <div class="page-header">
+                    <h1 class="display-3">Mist Guide</h1>
+                </div>
+                <p>
+                    The <a href="https://github.com/ethereum/mist/releases" target="_blank">Mist browser</a> is one of the most popular Ethereum clients available. If you have your Ether stored in Mist, follow these instructions to participate in the Macroverse crowdsale and purchase MRV.
+                </p>
+            </div>
+            <div class="col-lg-12">
+                <div class="row row-tutorial">
+                    <div class="col-md-6 col-tutorial">
+                        <img class="img-responsive" src="img/tutorial/MistBuy1.png">
+                    </div>
+                    <div class="col-md-6 col-tutorial">
+                        <p>
+                            <ol>
+                                <li>Open Mist and wait for it to sync with the Ethereum network. Once the main window opens, click on <b>SEND</b> in the top bar.</li>
+                                <li>Pick an account to send from. This account should hold some Ether, and will be the account that the MRV tokens are delivered to.</li>
+                                <li>Paste the address of the crowdsale contract, <code>0xAB6CF87a50F17d7F5E1FEaf81B6fE9FfBe8EBF84</code>, as the <b>TO</b> address. Ensure that the icon matches the one pictured here.</li>
+                                <li>Enter the amount of Ether you wish to spend. Fractional amounts of Ether are allowed.</li>
+                                <li>Scroll down to the bottom of the Mist interface.</li>
+                                <li>Click the <b>SEND</b> button to send your payment, and await the receipt of your Macroverse tokens. <strong>If Mist warns you that the transaction will fail, DO NOT SEND IT.</strong> The crowdsale may be over or not yet started, or you may have made a mistake.</li>
+                            </ol>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <p>
+                    Once your MRV tokens have been purchased, you can add the MRV token as a token in Mist, so that you can see your balance and send the token to to others. To do this, follow the guide below.
+                </p>
+            </div>
+            <div class="col-lg-12">
+                <div class="row row-tutorial">
+                    <div class="col-md-6 col-tutorial">
+                        <img class="img-responsive" src="img/tutorial/MistWatch1.png">
+                    </div>
+                    <div class="col-md-6 col-tutorial">
+                        <p>
+                            <ol>
+                                <li>Click on <b>CONTRACTS</b> in the Mist top bar.</li>
+                                <li>Scroll to the bottom of the Contracts page.</li>
+                                <li>Click on <b>WATCH TOKEN</b>.</li>
+                            </ol>
+                        </p>
+                    </div>
+                </div>
+                <div class="row row-tutorial">
+                    <div class="col-md-6 col-tutorial">
+                        <img class="img-responsive" src="img/tutorial/MistWatch2.png">
+                    </div>
+                    <div class="col-md-6 col-tutorial">
+                        <p>
+                            <ol>
+                                <li>In the window that appears, paste the contract address, <code>0xAB6CF87a50F17d7F5E1FEaf81B6fE9FfBe8EBF84</code>, in the <b>TOKEN CONTRACT ADDRESS</b> field. The other fields should fill in automatically. Note that future updates to the decimal location may not be reflected by your wallet.</li>
+                                <li>Click <b>OK</b>.</li> 
+                            </ol>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <p>
+                    Now your Mist wallet should know about MRV, the Macroverse token, and will allow you to view your balances and send it around just like Ether.
+                </p>
+            </div>
+        </section>
+        
         <!-- Footer -->
         <footer>
             <div class="row">
@@ -333,7 +560,7 @@
     
     <script type="text/javascript">
         // Crowdsale starts at ~Jul 1, 10 AM PST
-        var START_TIME = 1498928400000;
+        var START_TIME = 1498928400000; // - 10 * 24 * 60 * 60 * 1000;
         // And ends ~90 days later
         var END_TIME = START_TIME + 90 * 24 * 60 * 60 * 1000;
         

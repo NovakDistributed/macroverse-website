@@ -17,7 +17,7 @@ body,form,.btn,h4,h5,h6 {
 }
 
 /* Readable Text */
-section p {
+section {
     font-size: 21px;
     line-height: 1.58;
 }
@@ -91,6 +91,31 @@ h1.display-3 {
 
 .after-crowdsale {
     display: none;
+}
+
+/* The tutorials get special formatting, but only on sufficiently large screens */
+@media only screen and (min-width : 992px) {
+
+    .row-tutorial {
+        display: flex;
+        align-items: center;
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
+    
+}
+
+.buynow {
+    color: white;
+    text-decoration: bold;
+}
+
+div.row.bigbuy {
+    margin-top: 1.5em;
+}
+
+.btn.bigbuy {
+    font-size: 200%;
 }
 
 /* The rest of One Page Wonder */
