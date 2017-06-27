@@ -273,7 +273,7 @@
                     <h1 class="display-3">The Macroverse Crowdsale</h1>
                 </div>
                 <p>
-                    The MRV token crowdsale is currently scheduled to commence on July 1st, at 10 AM PST. The crowdsale is currently scheduled to last for approximately 90 days. The crowdsale contract address is <code>0xAB6CF87a50F17d7F5E1FEaf81B6fE9FfBe8EBF84</code>. Token and crowdsale functionality are unified in a single contract. Participants are encouraged to <a href="https://github.com/NovakDistributed/macroverse/blob/master/contracts/MRVToken.sol" target="_blank">review the crowdsale smart contract code</a>, which controls in all respects over any other terms.
+                    The MRV token crowdsale is currently scheduled to commence on July 1st, at approximately 10 AM PST, or 1498928534 seconds since epoch, Ethereum time. The crowdsale is currently scheduled to last for approximately 90 days. The crowdsale contract address is <code>0xAB6CF87a50F17d7F5E1FEaf81B6fE9FfBe8EBF84</code>. Token and crowdsale functionality are unified in a single contract. Participants are encouraged to <a href="https://github.com/NovakDistributed/macroverse/blob/master/contracts/MRVToken.sol" target="_blank">review the crowdsale smart contract code</a>, which controls in all respects over any other terms.
                 </p>
                 
                 <div class="panel panel-default">
@@ -560,7 +560,7 @@
     
     <script type="text/javascript">
         // Crowdsale starts at ~Jul 1, 10 AM PST
-        var START_TIME = 1498928400000; // - 10 * 24 * 60 * 60 * 1000;
+        var START_TIME = 1498928534 * 1000; // Read off of the chain
         // And ends ~90 days later
         var END_TIME = START_TIME + 90 * 24 * 60 * 60 * 1000;
         
