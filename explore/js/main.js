@@ -20,6 +20,33 @@ function timeoutPromise(time, promise) {
   })])
 }
 
+// Call the given closure repeatedly until it succeeds before timing out, or the max retries is reached.
+// Return the result, or throw an error.
+async function hammer(closure, retries = 10) {
+  for (var retry = 0; retry < retries; retry++) {
+    // Loop until success
+    try {
+      // Try the thing and wait for timeout
+      console.log('Hammer try')
+      let val = await timeoutPromise(MAX_WAIT_TIME, closure())
+      console.log('Hammer success')
+      return val
+    } catch (err) {
+      // If it times out or otherwise rejects
+      console.log('Hammer catch')
+      if (retry + 1 == retries) {
+        // We can't try again
+        console.log('Fail after error: ', err)
+        throw err
+      } else {
+        // Otherwise we can try again, so do it.
+        console.log('Retry after error: ', err)
+      }
+      
+    }
+  }
+}
+
 // How long should we wait for a promise when loading stars?
 let MAX_WAIT_TIME = 10000
 
@@ -48,7 +75,7 @@ let typeToColor = {
 
 // Startup function from Metamask documentation
 // Ought to work with Metamask or with testrpc or geth on the local machine
-window.addEventListener('load', function() {
+window.addEventListener('load', function() { 
   // We are running this file, so async/await code is parseable
   $('#haveAsync').text("Your browser supports async/await.")
   
@@ -133,52 +160,126 @@ class StarCache {
     let path = sectorX + ',' + sectorY + ',' + sectorZ
     if (!this.cache.hasOwnProperty(path)) {
       // If we haven't counted the stars in the sector yet, go do it.
-      this.cache[path] = (await this.generator.getSectorObjectCount.call(sectorX, sectorY, sectorZ)).toNumber()
+      this.cache[path] = (await hammer(() => {
+        return this.generator.getSectorObjectCount.call(sectorX, sectorY, sectorZ)
+      })).toNumber()
     }
     return this.cache[path]
   }
   
 }
 
+// Load the given Truffle JSON contract and get its edployed instance.
+async function getContract(jsonPath) {
+  console.log(jsonPath + ': request')
+  let json = await $.getJSON(jsonPath)
+  console.log(jsonPath + ': loaded')
+  let contractType = TruffleContract(json)
+  console.log(jsonPath + ': contract made')
+  contractType.setProvider(web3.currentProvider)
+  console.log(jsonPath + ': provider set')
+  // This next step sometimes fails inside MetaMask without ever throwing at our level
+  // We hammer it with a timeout.
+  try {
+    let instance = await hammer(contractType.deployed)
+    console.log(jsonPath + ': instance found')
+    return instance
+  } catch (err) {
+    console.log('Could not find deployed contract: ', err)
+    throw err
+  }
+  
+}
+
 async function startApp() {
-  
-  console.log(web3)
-  
-  let network = await promiseify(web3.version.getNetwork)
-  console.log("Running on network " + network)
-  $('#network').text(network)
-  
-  let address0 = web3.eth.accounts[0]
-  $('#account').text(address0)
-  
   // Start up the 3D engine and get the scene
   let scene = start3D();
+  console.log('3D scene ready')
   
-  // Load up the MRVToken
-  let MRVToken = TruffleContract(await $.getJSON('contracts/MRVToken.json'))
-  MRVToken.setProvider(web3.currentProvider)
-  let MRVTokenInstance = await MRVToken.deployed()
+  // Go get the network
+  let network = await hammer(() => {
+    return promiseify(web3.version.getNetwork)
+  })
+  console.log('Running on network ' + network)
+  $('#network').text(network)
   
-  // And the Macroverse Star Generator
-  let MacroverseStarGenerator = TruffleContract(await $.getJSON('contracts/MacroverseStarGenerator.json'))
-  MacroverseStarGenerator.setProvider(web3.currentProvider)
-  let MacroverseStarGeneratorInstance = await MacroverseStarGenerator.deployed()
+  // Make sure there are accounts
+  $('#accounts').text(web3.eth.accounts.length)
+  if (web3.eth.accounts.length == 0) {
+    throw new Error('No accounts available. If using MetaMask, log in!')
+  }
   
-  // And the Macroverse Star Registry
-  let MacroverseStarRegistry = TruffleContract(await $.getJSON('contracts/MacroverseStarRegistry.json'))
-  MacroverseStarRegistry.setProvider(web3.currentProvider)
-  let MacroverseStarRegistryInstance = await MacroverseStarRegistry.deployed()
+  try {
+    // Get the 0th account
+    let address0 = web3.eth.accounts[0]
+    $('#account').text(address0)
+  } catch (err) {
+    console.log('Web3 error:', err)
+    alert('Unable to get Ethereum account. Is your web3 provider running/logged in?')
+  }
   
+  // Load up the contracts
+  let MRVTokenInstance = await getContract('contracts/MRVToken.json')
+  console.log('Token ready')
+  let MacroverseStarGeneratorInstance = await getContract('contracts/MacroverseStarGenerator.json')
+  console.log('Generator ready')
+  let MacroverseStarRegistryInstance = await getContract('contracts/MacroverseStarRegistry.json')
+  console.log('Registry ready')
+
+  console.log('Contracts ready')
+  
+  // Work out our MRV balance
+  let weiBalance = await hammer(() => {
+    return MRVTokenInstance.balanceOf(web3.eth.accounts[0])
+  })
   // This balance has to be at least 100 * 10^18 for things to work, assuming the minimum balance requirement hasn't been changed
-  let balance = web3.fromWei(await MRVTokenInstance.balanceOf(web3.eth.accounts[0]), "ether")
+  let balance = web3.fromWei(weiBalance, "ether")
   console.log("Balance: " + balance)
   $('#balance').text(balance)
   
   // Slap a chace in front of the MacroverseStarGenerator
   let cache = new StarCache(MacroverseStarGeneratorInstance)
+  console.log('Cache ready')
   
-  let starCount = await cache.getObjectCount(0, 0, 0)
-  console.log("Stars in origin sector: ", starCount)
+  // Set up UI for displaying sectors
+  $('#goToSector').click(() => {
+    displaySector($('#sectorX').val(), $('#sectorY').val(), $('#sectorZ').val(), scene, cache)
+  })
+  
+  // Kick off sector 0
+  // Don't await
+  displaySector($('#sectorX').val(), $('#sectorY').val(), $('#sectorZ').val(), scene, cache)
+  
+  // Enable the button and the controls to pick another sector
+  $('.sector-picker').prop('disabled', false);
+  
+  console.log('Ready to view sectors!')
+}
+
+// We fill this with scene objects in the current sector, and clean them all up when drawing a new sector.
+// Also has the sector bounding box, because apparently if we remove everything we get no video until we add something again.
+let currentSectorObjects = []
+// We increase this every time we draw a new sector, so that if old requests come back we can ignore them.
+let sectorNonce = 0;
+
+// Draw the stars in the given sector into the given scene, pulling from the given cache
+async function displaySector(x, y, z, scene, cache) {
+  // Increase nonce so no new stuff from old calls gets added
+  sectorNonce++
+  let nonce = sectorNonce
+  
+  for (let item of currentSectorObjects) {
+    // Clean up everything from the last sector
+    item.dispose()
+  }
+  currentSectorObjects = []
+  
+  // Add the sector box to describe the sector boundaries.
+  let box = addSectorBox(scene)
+  currentSectorObjects.push(box)
+  
+  let starCount = await cache.getObjectCount(x, y, z)
+  console.log('Generation ' + nonce + ': Stars in sector ' + x + ',' + y + ',' + z + ': ', starCount)
   
   let starPromises = []
   
@@ -186,7 +287,12 @@ async function startApp() {
     
     starPromises.push(async function() {
       // Go get the star properties
-      let obj = await cache.getObject(0, 0, 0, star)
+      let obj = await cache.getObject(x, y, z, star)
+      
+      if (nonce != sectorNonce) {
+        // We were too slow getting them and the user has moved on
+        return
+      }
       
       // Get a material for this star
       // TODO: cache?
@@ -201,14 +307,16 @@ async function startApp() {
         showStarInfo(obj)
       }
       
+      // Add the star to the list of scene nodes in the scene for this sector
+      currentSectorObjects.push(starMesh)
+      
     }())
     
   }
   
   await Promise.all(starPromises)
   
-  console.log('All stars downloaded successfully.')
-  
+  console.log('Generation ' + nonce + ': All stars downloaded successfully, ' + currentSectorObjects.length + 'scene nodes')
 }
 
 // Get the material that a star or object ought to use, given the class name of its spectral type
@@ -278,6 +386,22 @@ function addStar(scene, x, y, z, size, material, shouldGlow) {
   return starSphere
 }
 
+// Add the green box describing the sector bounds to the given scene, and return it.
+function addSectorBox(scene) {
+  // Put a box in to define the sector
+  let box = BABYLON.Mesh.CreateBox("sector", 25, scene)
+  // Make it wireframe
+  box.material = new BABYLON.StandardMaterial("wireframe", scene)
+  box.material.wireframe = true
+  box.material.diffuseColor = new BABYLON.Color3(0, 0, 0)
+  box.material.specularColor = box.material.diffuseColor
+  box.material.emissiveColor = new BABYLON.Color3(0.0, 1.0, 0.0)
+  box.material.alpha = 0.1
+  box.isPickable = false
+  
+  return box
+}
+
 // Display the information on the fully-realized star object in the info panel
 function showStarInfo(obj) {
   $('.starinfoplaceholder').hide()
@@ -295,6 +419,8 @@ function showStarInfo(obj) {
   $('.starinfo').show()
 }
 
+
+
 // This starts up the Babylon 3d engine and draws stuff.
 // Returns the scene for further manipulation
 function start3D() {
@@ -311,24 +437,18 @@ function start3D() {
   // Make the camera an ArcRotateCamera that can be rotated around the scene to look at it
   // Put it just outside the sector, and target 0,0,0.
   let camera = new BABYLON.ArcRotateCamera("camera1", 0.3, 1.5, 50, new BABYLON.Vector3(0, 0, 0), scene)
+  // On Firefox, the camera sometimes decides to just pan all the way down by itself unless we redo the inputs manually.
+  // Maybe it's device orientation or something.
+  camera.inputs.clear()
+  camera.inputs.addPointers()
+  camera.inputs.addMouseWheel()
   // Control it from the canvas
   camera.attachControl(canvas, false)
   
   // Light the scene from above
   let light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene)
   light.intensity = 1
-  
-  // Put a box in to define the sector
-  let box = BABYLON.Mesh.CreateBox("sector", 25, scene)
-  // Make it wireframe
-  box.material = new BABYLON.StandardMaterial("wireframe", scene)
-  box.material.wireframe = true
-  box.material.diffuseColor = new BABYLON.Color3(0, 0, 0)
-  box.material.specularColor = box.material.diffuseColor
-  box.material.emissiveColor = new BABYLON.Color3(0.0, 1.0, 0.0)
-  box.material.alpha = 0.1
-  box.isPickable = false
-  
+
   // Register a render loop to repeatedly render the scene
   engine.runRenderLoop(function () {
      scene.render()
