@@ -78,7 +78,6 @@ let typeToColor = {
 window.addEventListener('load', function() { 
   // We are running this file, so async/await code is parseable
   $('#haveAsync').text("Your browser supports async/await.")
-  
   // Checking if Web3 has been injected by the browser (Mist/MetaMask)
   if (typeof web3 !== 'undefined') {
     // Use Mist/MetaMask's provider
@@ -426,6 +425,7 @@ function showStarInfo(obj) {
 function start3D() {
   // Get the canvas element from our HTML below
   let canvas = document.querySelector("#renderCanvas")
+  
   // Load the BABYLON 3D engine
   let engine = new BABYLON.Engine(canvas, true)
   
