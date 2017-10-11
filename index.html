@@ -2,9 +2,6 @@
 <html lang="en">
 
 <head>
-
-    <!-- Big font is ugly, children are evil, exploring America is colonialist -->
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,9 +30,6 @@
     
     <!-- Cool Fonts for Cool Stuff -->
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans|Voltaire" rel="stylesheet">
-    
-    <!-- Classy Countdown -->
-    <link href="css/jquery.classycountdown.css" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link href="css/font-awesome.min.css" rel="stylesheet">
@@ -302,56 +296,6 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
     
-    <!-- Classy Countdown for Crowdsale -->
-    <script src="js/jquery.knob.js"></script>
-    <script src="js/jquery.throttle.js"></script>
-    <script src="js/jquery.classycountdown.js"></script>
-    
-    <script type="text/javascript">
-        // Crowdsale starts at ~Jul 1, 10 AM PST
-        var START_TIME = 1498928534 * 1000; // Read off of the chain
-        // And ends ~90 days later
-        var END_TIME = 1506704446 * 1000;
-        
-        var now = Date.now();
-        
-        var countdown_time;
-        
-        if (now < START_TIME) {
-            // Crowdsale should not be started yet
-            $('.after-crowdsale').hide();
-            $('.during-crowdsale').hide();
-            $('.before-crowdsale').show();
-            countdown_time = START_TIME;
-        } else if (now >= START_TIME && now <= END_TIME) {
-            // Crowdsale should be happening
-            $('.before-crowdsale').hide();
-            $('.after-crowdsale').hide();
-            $('.during-crowdsale').show();
-            countdown_time = END_TIME;
-        } else {
-            // Crowdsale should be over
-            $('.before-crowdsale').hide();
-            $('.during-crowdsale').hide();
-            $('.after-crowdsale').show();
-            countdown_time = null;
-        }
-        
-        if (countdown_time != null) {
-            $('.crowdsale-countdown').ClassyCountdown({
-                now: Date.now(),
-                end: countdown_time,
-                theme: "black-very-wide"
-            });
-            $('.crowdsale-countdown-white').ClassyCountdown({
-                now: Date.now(),
-                end: countdown_time,
-                theme: "white-wide"
-            });
-        }
-    </script>
-
-
 </body>
 
 </html>
