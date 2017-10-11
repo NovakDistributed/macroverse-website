@@ -12,7 +12,7 @@ body {
 h1,h2,h3,.navbar { 
     font-family: 'Voltaire', sans-serif;
 }
-body,form,.btn,h4,h5,h6 {
+body,form,.btn,h4,h5,h6,.label {
     font-family: 'Nunito Sans', serif;
 }
 
@@ -71,32 +71,10 @@ h1.display-3 {
     border-radius: 6px;
 }
 
-/* Let us make the inline countdowns narrower */
-.countdown-inline {
-    width: 75%;
-}
-/* Or make them the right color */
-.top-countdown {
-    color: rgba(255,255,255,0.9);;
-}
-
-/* We programmed the page to change based on time, to reflect what ought to be the crowdsale state. */
-.before-crowdsale {
-
-}
-
-.during-crowdsale {
-    display: none;
-}
-
-.after-crowdsale {
-    display: none;
-}
-
-/* The tutorials get special formatting, but only on sufficiently large screens */
+/* Vertically-aligned rows special formatting, but only on sufficiently large screens */
 @media only screen and (min-width : 992px) {
 
-    .row-tutorial {
+    .vertical-align {
         display: flex;
         align-items: center;
         margin-top: 1em;
@@ -105,18 +83,7 @@ h1.display-3 {
     
 }
 
-.buynow {
-    color: white;
-    text-decoration: bold;
-}
-
-div.row.bigbuy {
-    margin-top: 1.5em;
-}
-
-.btn.bigbuy {
-    font-size: 200%;
-}
+/* I want my phases to look nice */
 
 /* The rest of One Page Wonder */
 
