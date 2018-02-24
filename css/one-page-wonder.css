@@ -71,6 +71,18 @@ h1.display-3 {
     border-radius: 6px;
 }
 
+/* Style the MailChimp privacy link so people can see it */
+.mail-privacy {
+    color: white;
+    text-shadow: 1px 1px 0px black; 
+}
+
+.mail-privacy:hover {
+    color: white;
+    text-shadow: 1px 1px 0px black; 
+}
+
+
 /* Vertically-aligned rows special formatting, but only on sufficiently large screens */
 @media only screen and (min-width : 992px) {
 
