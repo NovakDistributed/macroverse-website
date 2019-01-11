@@ -79,8 +79,12 @@ window.addEventListener('load', function() {
   // We are running this file, so async/await code is parseable
   $('#haveAsync').text("Your browser supports async/await.")
   // Checking if Web3 has been injected by the browser (Mist/MetaMask)
-  if (typeof web3 !== 'undefined') {
-    // Use Mist/MetaMask's provider
+  if (typeof window.ethereum !== 'undefined') {
+    // Use Mist/MetaMask's provider on the new path
+    $('#web3type').text('MetaMask, Mist, or other in-browser web3 provider.')
+    window.web3 = new Web3(window.ethereum)
+  } else if (typeof web3 !== 'undefined') {
+    // Use Mist/MetaMask's provider on the old path
     $('#web3type').text('MetaMask, Mist, or other in-browser web3 provider.')
     window.web3 = new Web3(web3.currentProvider)
   } else {
@@ -89,10 +93,16 @@ window.addEventListener('load', function() {
     // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
     window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"))
   }
+  
+  if (typeof web3.currentProvider.enable !== 'undefined') {
+    // We need to do the new enable dance
+    web3.currentProvider.enable().then(startApp)
+  } else {
+    // Accounts should already be available
 
-  // Now you can start your app & access web3 freely:
-  startApp()
-
+    // Now you can start your app & access web3 freely:
+    startApp()
+  }
 })
 
 // Represents a cache over the MacroverseStarGenerator.
