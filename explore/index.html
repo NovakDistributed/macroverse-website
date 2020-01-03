@@ -77,7 +77,7 @@
                                     <li>Are in a browser that supports modern JavaScript async/await style (i.e <a href="https://github.com/ethereum/mist/issues/2620" target="_balnk">not Mist</a>). <span id="haveAsync">Your browser does not support async/await, so this tool will not work.</span></li>
                                     <li>Have <a href="https://metamask.io/" target="_blank">MetaMask</a> in Chrome or Firefox, or a local node (<code>geth --rpc --rpcport 8545 --rpccorsdomain "https://macroverse.io"</code>) running at <span class="code">http://localhost:8545</span> with RPC open and CORS set for this domain. Your web3 is: <span id="web3type">Undetermined</span></li>
                                     <li>Have an available Ethereum account. You have <span id="accounts">0</span> accounts available. If there are no available accounts and you are using MetaMask, make sure you are logged in.</li>
-                                    <li>Have 100 MRV or more in your account. Your account <span id="account">Unknown</span> on network <span id="network">Unknown</span> has a balance of <span id="balance">Unknown</span> MRV. <a href="https://macroverse.io/#buy" target="_blank">Buy more MRV here.</a></li>
+                                    <li>Have 100 MRV or more in your account. Your account <span id="account">Unknown</span> on network <span id="network">Unknown</span> has a balance of <span id="balance">Unknown</span> MRV.</li>
                                 </ul>
                             </div>
                             <ul class="list-group starinfo">
@@ -97,7 +97,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; 2017 Novak Distributed</p>
+                    <p>Copyright &copy; 2020 Novak Distributed</p>
                 </div>
             </div>
         </footer>
@@ -114,8 +114,7 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
     
-    <!-- web3 and Truffle contract loader -->
-    <script src="js/web3.min.js"></script>
+    <!-- Truffle contract loader (includes web3) -->
     <script src="js/truffle-contract.min.js"></script>
     
     <!-- Babylon.js 3D engine -->

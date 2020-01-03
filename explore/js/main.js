@@ -54,7 +54,12 @@ let REAL_FBITS = 40
 
 function fromReal(real) {
   // Convert from 40 bit fixed point
-  return real.dividedBy(web3.toBigNumber(2).toPower(REAL_FBITS)).toNumber()
+
+  // First get into floating point
+  floating = parseFloat(real.toString(10))
+
+  // Then move the decimal
+  return floating / Math.pow(2, REAL_FBITS)
 }
 
 let objectClasses = ['Supergiant', 'Giant', 'MainSequence', 'WhiteDwarf', 'NeutronStar', 'BlackHole']
@@ -107,10 +112,14 @@ window.addEventListener('load', function() {
 
 // Represents a cache over the MacroverseStarGenerator.
 class StarCache {
-  // Construct a cache in front of a TruffleContract for the MacroverseStarGenerator
-  constructor(MacroverseStarGeneratorInstance) {
+  // Construct a cache in front of a TruffleContract for the MacroverseStarGenerator, amking calls as from the given address.
+  constructor(MacroverseStarGeneratorInstance, sourceAddress) {
     // Save a reference to the backing MacroverseStarGenerator
     this.generator = MacroverseStarGeneratorInstance
+
+    // Save the address to make the reads as. The default isn't right (maybe due to web3.eth.accounts not working).
+    // Save it in a pre-made options object for all the calls.
+    this.opts = {from: sourceAddress}
     
     // Maps from string paths to object
     this.cache = {}
@@ -130,20 +139,20 @@ class StarCache {
         
         try {
           // Work out the seed
-          obj.seed = await timeoutPromise(MAX_WAIT_TIME, this.generator.getSectorObjectSeed.call(sectorX, sectorY, sectorZ, objectNumber))
+          obj.seed = await timeoutPromise(MAX_WAIT_TIME, this.generator.getSectorObjectSeed.call(sectorX, sectorY, sectorZ, objectNumber, this.opts))
           
           // Decide on a position
-          let [ x, y, z] = await timeoutPromise(MAX_WAIT_TIME, this.generator.getObjectPosition.call(obj.seed))
-          obj.x = fromReal(x)
-          obj.y = fromReal(y)
-          obj.z = fromReal(z)
+          let coords = await timeoutPromise(MAX_WAIT_TIME, this.generator.getObjectPosition.call(obj.seed, this.opts))
+          obj.x = fromReal(coords[0])
+          obj.y = fromReal(coords[1])
+          obj.z = fromReal(coords[2])
           
-          obj.objClass = (await timeoutPromise(MAX_WAIT_TIME, this.generator.getObjectClass.call(obj.seed))).toNumber()
-          obj.objType = (await timeoutPromise(MAX_WAIT_TIME, this.generator.getObjectSpectralType.call(obj.seed, obj.objClass))).toNumber()
+          obj.objClass = (await timeoutPromise(MAX_WAIT_TIME, this.generator.getObjectClass.call(obj.seed, this.opts))).toNumber()
+          obj.objType = (await timeoutPromise(MAX_WAIT_TIME, this.generator.getObjectSpectralType.call(obj.seed, obj.objClass, this.opts))).toNumber()
           
-          obj.hasPlanets = await timeoutPromise(MAX_WAIT_TIME, this.generator.getObjectHasPlanets.call(obj.seed, obj.objClass, obj.objType))
+          obj.hasPlanets = await timeoutPromise(MAX_WAIT_TIME, this.generator.getObjectHasPlanets.call(obj.seed, obj.objClass, obj.objType, this.opts))
           
-          obj.objMass = fromReal(await timeoutPromise(MAX_WAIT_TIME, this.generator.getObjectMass.call(obj.seed, obj.objClass, obj.objType)))
+          obj.objMass = fromReal(await timeoutPromise(MAX_WAIT_TIME, this.generator.getObjectMass.call(obj.seed, obj.objClass, obj.objType, this.opts)))
           
           // Save it
           this.cache[path] = obj
@@ -170,7 +179,7 @@ class StarCache {
     if (!this.cache.hasOwnProperty(path)) {
       // If we haven't counted the stars in the sector yet, go do it.
       this.cache[path] = (await hammer(() => {
-        return this.generator.getSectorObjectCount.call(sectorX, sectorY, sectorZ)
+        return this.generator.getSectorObjectCount.call(sectorX, sectorY, sectorZ, this.opts)
       })).toNumber()
     }
     return this.cache[path]
@@ -213,14 +222,18 @@ async function startApp() {
   $('#network').text(network)
   
   // Make sure there are accounts
-  $('#accounts').text(web3.eth.accounts.length)
-  if (web3.eth.accounts.length == 0) {
+  // Old web3.eth.accounts doesn't work with new Web3/MetaMask
+  // But the new real promise interface also doesn't work
+  let accounts = await promiseify(web3.eth.getAccounts)
+
+  $('#accounts').text(accounts.length)
+  if (accounts.length == 0) {
     throw new Error('No accounts available. If using MetaMask, log in!')
   }
   
   try {
     // Get the 0th account
-    let address0 = web3.eth.accounts[0]
+    let address0 = accounts[0]
     $('#account').text(address0)
   } catch (err) {
     console.log('Web3 error:', err)
@@ -239,15 +252,15 @@ async function startApp() {
   
   // Work out our MRV balance
   let weiBalance = await hammer(() => {
-    return MRVTokenInstance.balanceOf(web3.eth.accounts[0])
+    return MRVTokenInstance.balanceOf(accounts[0])
   })
   // This balance has to be at least 100 * 10^18 for things to work, assuming the minimum balance requirement hasn't been changed
   let balance = web3.fromWei(weiBalance, "ether")
   console.log("Balance: " + balance)
   $('#balance').text(balance)
   
-  // Slap a chace in front of the MacroverseStarGenerator
-  let cache = new StarCache(MacroverseStarGeneratorInstance)
+  // Slap a cache in front of the MacroverseStarGenerator, and make read calls from the default Ethereum account
+  let cache = new StarCache(MacroverseStarGeneratorInstance, accounts[0])
   console.log('Cache ready')
   
   // Set up UI for displaying sectors
@@ -325,7 +338,7 @@ async function displaySector(x, y, z, scene, cache) {
   
   await Promise.all(starPromises)
   
-  console.log('Generation ' + nonce + ': All stars downloaded successfully, ' + currentSectorObjects.length + 'scene nodes')
+  console.log('Generation ' + nonce + ': All stars downloaded successfully, ' + currentSectorObjects.length + ' scene nodes')
 }
 
 // Get the material that a star or object ought to use, given the class name of its spectral type
