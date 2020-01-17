@@ -26,10 +26,23 @@ h1.display-3 {
     margin-top: 55px;
 }
 
+/* Ethereum addresses that fit on phones */
+.eth-address {
+    word-wrap: break-word;
+}
+
 /* Transparent Top Bar */
 
 .transparent {
     background: rgba(0,0,0,0.8);
+}
+
+.transbutton-best > a {
+    color: red !important;
+}
+
+.transbutton-best > a:hover {
+    color: white !important;
 }
 
 .transbutton:hover {
