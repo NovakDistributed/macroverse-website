@@ -15,6 +15,15 @@ h1,h2,h3,.navbar {
 body,form,.btn,h4,h5,h6,.label {
     font-family: 'Nunito Sans', serif;
 }
+@font-face {
+  font-family: 'Voltaire';
+  src: url('../fonts/Voltaire/Voltaire-Regular.ttf');
+}
+@font-face {
+  font-family: 'Nunito Sans';
+  src: url('../fonts/Nunito_Sans/NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf');
+}
+
 
 /* Readable Text */
 section {
